@@ -14,6 +14,8 @@ import (
 )
 
 func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
+	log.Printf("start PickGoodFirstIssue")
+
 	resp, err := http.Get(fmt.Sprintf("https://%s/api/fetch_good_first_issue", os.Getenv("VERCEL_URL")))
 	if err != nil {
 		log.Fatalf("Fetch good first issues: %s", err)
@@ -37,4 +39,6 @@ func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Location", *issues[index].HTMLURL)
 	w.WriteHeader(http.StatusTemporaryRedirect)
 	w.Write(nil)
+
+	log.Printf("finish PickGoodFirstIssue")
 }

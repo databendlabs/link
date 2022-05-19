@@ -14,6 +14,8 @@ import (
 )
 
 func FetchGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
+	log.Printf("start FetchGoodFirstIssue")
+
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
@@ -75,4 +77,6 @@ func FetchGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Cache-Control", "s-maxage=3600")
 	w.WriteHeader(http.StatusOK)
 	w.Write(content)
+
+	log.Printf("finish FetchGoodFirstIssue")
 }
