@@ -73,8 +73,8 @@ func FetchGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Invalid issues: %s", err)
 	}
 
-	// Cache content up to 3600
-	w.Header().Add("Cache-Control", "s-maxage=3600")
+	// Cache content up to 600 (10 mins)
+	w.Header().Add("Cache-Control", "s-maxage=600")
 	w.WriteHeader(http.StatusOK)
 	w.Write(content)
 
