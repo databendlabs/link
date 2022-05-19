@@ -33,10 +33,14 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 		go func(repo string) {
 			defer wg.Done()
 
-			is, _, err := client.Issues.ListByRepo(ctx, "datafuselabs", repo, &github.IssueListByRepoOptions{Labels: []string{"good first issue"}})
+			is, resp, err := client.Issues.ListByRepo(ctx, "datafuselabs", repo, &github.IssueListByRepoOptions{Labels: []string{"good first issue"}})
 			if err != nil {
 				log.Fatalf("ListByOrg: %s", err)
 			}
+
+			log.Printf("rate limit: %v", resp.Header.Get("X-RateLimit-Limit"))
+			log.Printf("rate limit used: %v", resp.Header.Get("X-RateLimit-Used"))
+			log.Printf("rate limit remaining: %v", resp.Header.Get("X-RateLimit-Remaining"))
 
 			lock.Lock()
 			defer lock.Unlock()
