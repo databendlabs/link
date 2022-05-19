@@ -6,7 +6,7 @@
     },
     {
       "source": "/i-m-feeling-lucky",
-      "destination": "/api/good_first_issue"
+      "destination": "/api/pick_good_first_issue"
     },
     {
       "source": "/join-slack",

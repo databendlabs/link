@@ -2,19 +2,20 @@ package api
 
 import (
 	"context"
+	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
 	"os"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/google/go-github/v44/github"
 	"golang.org/x/oauth2"
 )
 
-func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
+func FetchGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
+	log.Printf("start FetchGoodFirstIssue")
+
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
@@ -67,11 +68,15 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Take current unix nano as seed.
-	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
-	index := rnd.Intn(len(issues))
+	content, err := json.Marshal(issues)
+	if err != nil {
+		log.Fatalf("Invalid issues: %s", err)
+	}
 
-	w.Header().Add("Location", *issues[index].HTMLURL)
-	w.WriteHeader(http.StatusTemporaryRedirect)
-	w.Write(nil)
+	// Cache content up to 600 (10 mins)
+	w.Header().Add("Cache-Control", "s-maxage=600")
+	w.WriteHeader(http.StatusOK)
+	w.Write(content)
+
+	log.Printf("finish FetchGoodFirstIssue")
 }
