@@ -40,9 +40,8 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	wg.Wait()
 
 	index := rand.Intn(len(issues))
-	url := *issues[index].URL
 
-	w.Header().Add("Location", url)
+	w.Header().Add("Location", *issues[index].HTMLURL)
 	w.WriteHeader(http.StatusTemporaryRedirect)
 	w.Write(nil)
 }
