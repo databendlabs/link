@@ -5,15 +5,21 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/google/go-github/v44/github"
+	"golang.org/x/oauth2"
 )
 
 func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
-	client := github.NewClient(nil)
-
 	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+
+	client := github.NewClient(tc)
 
 	repos := []string{"databend", "openraft", "opendal"}
 
