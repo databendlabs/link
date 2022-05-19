@@ -25,6 +25,8 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 		wg.Add(1)
 
 		go func(repo string) {
+			defer wg.Done()
+
 			is, _, err := client.Issues.ListByRepo(ctx, "datafuselabs", repo, &github.IssueListByRepoOptions{Labels: []string{"good first issue"}})
 			if err != nil {
 				log.Fatalf("ListByOrg: %s", err)
@@ -41,6 +43,6 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	url := *issues[index].URL
 
 	w.Header().Add("Location", url)
-	w.WriteHeader(302)
+	w.WriteHeader(http.StatusTemporaryRedirect)
 	w.Write(nil)
 }
