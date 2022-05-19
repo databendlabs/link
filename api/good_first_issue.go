@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/google/go-github/v44/github"
 	"golang.org/x/oauth2"
@@ -33,7 +34,11 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 		go func(repo string) {
 			defer wg.Done()
 
-			is, resp, err := client.Issues.ListByRepo(ctx, "datafuselabs", repo, &github.IssueListByRepoOptions{Labels: []string{"good first issue"}})
+			is, resp, err := client.Issues.ListByRepo(ctx, "datafuselabs", repo, &github.IssueListByRepoOptions{Labels: []string{"good first issue"},
+				ListOptions: github.ListOptions{
+					Page:    0,
+					PerPage: 500,
+				}})
 			if err != nil {
 				log.Fatalf("ListByOrg: %s", err)
 			}
@@ -49,9 +54,16 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	}
 	wg.Wait()
 
-	index := rand.Intn(len(issues))
+	log.Printf("Got %d issues", len(issues))
 
-	w.Header().Add("Location", *issues[index].HTMLURL)
+	// Take current unix nano as seed.
+	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	// Shuffle the whole issues and choosing the first one.
+	rnd.Shuffle(len(issues), func(i, j int) {
+		issues[i], issues[j] = issues[j], issues[i]
+	})
+
+	w.Header().Add("Location", *issues[0].HTMLURL)
 	w.WriteHeader(http.StatusTemporaryRedirect)
 	w.Write(nil)
 }
