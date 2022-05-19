@@ -20,6 +20,7 @@ func TestGoodFirstIssue(t *testing.T) {
 	handler.ServeHTTP(rr, req)
 
 	t.Logf("%s", rr.Header())
+	t.Logf("%s", rr.Body)
 
 	if status := rr.Code; status != http.StatusTemporaryRedirect {
 		t.Errorf("handler returned wrong status code: got %v want %v",
