@@ -21,6 +21,8 @@ func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Fetch good first issues: %s", err)
 	}
 
+	log.Printf("X-Vercel-Cache: %s", resp.Header.Get("X-Vercel-Cache"))
+
 	content, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("Read good first issues: %s", err)
