@@ -58,12 +58,9 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 
 	// Take current unix nano as seed.
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
-	// Shuffle the whole issues and choosing the first one.
-	rnd.Shuffle(len(issues), func(i, j int) {
-		issues[i], issues[j] = issues[j], issues[i]
-	})
+	index := rnd.Intn(len(issues))
 
-	w.Header().Add("Location", *issues[0].HTMLURL)
+	w.Header().Add("Location", *issues[index].HTMLURL)
 	w.WriteHeader(http.StatusTemporaryRedirect)
 	w.Write(nil)
 }
