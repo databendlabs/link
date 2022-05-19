@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -22,7 +23,7 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 
 	client := github.NewClient(tc)
 
-	repos := []string{"databend", "openraft", "opendal"}
+	repos := strings.Split(os.Getenv("GITHUB_REPOS"), ",")
 
 	wg := &sync.WaitGroup{}
 	var issues []*github.Issue
@@ -33,8 +34,12 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 
 		go func(repo string) {
 			defer wg.Done()
+			ownerRepo := strings.Split(repo, "/")
+			if len(ownerRepo) < 2 {
+				log.Fatalf("Invalid repo: %s", repo)
+			}
 
-			is, resp, err := client.Issues.ListByRepo(ctx, "datafuselabs", repo, &github.IssueListByRepoOptions{Labels: []string{"good first issue"},
+			is, resp, err := client.Issues.ListByRepo(ctx, ownerRepo[0], ownerRepo[1], &github.IssueListByRepoOptions{Labels: []string{"good first issue"},
 				ListOptions: github.ListOptions{
 					Page:    0,
 					PerPage: 500,
@@ -55,6 +60,12 @@ func GoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	wg.Wait()
 
 	log.Printf("Got %d issues", len(issues))
+	if len(issues) == 0 {
+		// Return a Not Found error
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("No issues found"))
+		return
+	}
 
 	// Take current unix nano as seed.
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
