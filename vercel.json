@@ -1,5 +1,6 @@
 {
   "redirects": [
-    { "source": "/join-slack", "destination": "https://join.slack.com/t/datafusecloud/shared_invite/zt-nojrc9up-Eqwmcv61MnuNpDKzG8KNWg" }
+    { "source": "/join-slack", "destination": "https://join.slack.com/t/datafusecloud/shared_invite/zt-nojrc9up-Eqwmcv61MnuNpDKzG8KNWg" },
+    { "source": "/i-m-feeling-lucky", "destination": "/api/good_first_issue" }
   ]
 }
