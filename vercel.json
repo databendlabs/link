@@ -13,6 +13,14 @@
       "destination": "https://join.slack.com/t/datafusecloud/shared_invite/zt-nojrc9up-Eqwmcv61MnuNpDKzG8KNWg"
     },
     {
+      "source": "/project-query",
+      "destination": "https://github.com/orgs/datafuselabs/projects/7"
+    },
+    {
+      "source": "/project-storage",
+      "destination": "https://github.com/orgs/datafuselabs/projects/5"
+    },
+    {
       "source": "/twitter",
       "destination": "https://twitter.com/Datafuse_Labs"
     }

@@ -17,4 +17,7 @@ Please report to us via [issues](https://github.com/datafuselabs/link/issues) wh
 
 - [I'm feeling lucky](https://link.databend.rs/i-m-feeling-lucky): Open a good first issue for you!
 - [Join Slack](https://link.databend.rs/join-slack): Join databend slack to have live communication
+- Projects: Tasks that databend community is working on
+  - [Databend Query Engine](https://link.databend.rs/project-query)
+  - [Databend Storage Layer](https://link.databend.rs/project-storag)
 - [Visit Twitter](https://link.databend.rs/twitter): Visit datafuse labs twitter
