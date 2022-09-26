@@ -21,6 +21,10 @@
       "destination": "https://matrix.to/#/#databend-general:matrix.org"
     },
     {
+      "source": "/join-feishu",
+      "destination": "https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=e7co6477-5f7e-4b6a-8c4d-24d1f03590f8"
+    },
+    {
       "source": "/project-query",
       "destination": "https://github.com/orgs/datafuselabs/projects/7"
     },
