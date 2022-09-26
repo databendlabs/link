@@ -13,6 +13,14 @@
       "destination": "https://join.slack.com/t/datafusecloud/shared_invite/zt-nojrc9up-Eqwmcv61MnuNpDKzG8KNWg"
     },
     {
+      "source": "/join-discord",
+      "destination": "https://discord.gg/qSbQKQswBA"
+    },
+    {
+      "source": "/join-matrix",
+      "destination": "https://matrix.to/#/#databend-general:matrix.org"
+    },
+    {
       "source": "/project-query",
       "destination": "https://github.com/orgs/datafuselabs/projects/7"
     },
