@@ -10,7 +10,7 @@ import (
 func TestFetchGoodFirstIssue(t *testing.T) {
 	// Create a request to pass to our handler. We don't have any query parameters for now, so we'll
 	// pass 'nil' as the third parameter.
-	os.Setenv("GITHUB_REPOS", "datafuselabs/databend,datafuselabs/opendal")
+	os.Setenv("GITHUB_REPOS", "databendlabs/databend,databendlabs/bendsql")
 
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
