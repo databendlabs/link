@@ -27,6 +27,7 @@ func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Read good first issues: %s", err)
 	}
+	log.Printf("content: %s", string(content))
 
 	var issues []*github.Issue
 	err = json.Unmarshal(content, &issues)
