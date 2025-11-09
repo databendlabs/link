@@ -3,14 +3,14 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/google/go-github/v44/github"
+	"github.com/google/go-github/v78/github"
 )
 
 func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +23,7 @@ func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("X-Vercel-Cache: %s", resp.Header.Get("X-Vercel-Cache"))
 
-	content, err := ioutil.ReadAll(resp.Body)
+	content, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("Read good first issues: %s", err)
 	}
