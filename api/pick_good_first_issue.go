@@ -16,7 +16,7 @@ import (
 func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	log.Printf("start PickGoodFirstIssue")
 
-	fetchURL := fmt.Sprintf("https://%s/api/fetch_good_first_issue", os.Getenv("VERCEL_URL"))
+	fetchURL := fmt.Sprintf("https://%s/api/fetch_good_first_issue", os.Getenv("VERCEL_PROJECT_PRODUCTION_URL"))
 	resp, err := http.Get(fetchURL)
 	if err != nil {
 		log.Fatalf("Fetch good first issues: %s", err)
