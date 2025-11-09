@@ -16,12 +16,17 @@ import (
 func PickGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	log.Printf("start PickGoodFirstIssue")
 
-	resp, err := http.Get(fmt.Sprintf("https://%s/api/fetch_good_first_issue", os.Getenv("VERCEL_URL")))
+	fetchURL := fmt.Sprintf("https://%s/api/fetch_good_first_issue", os.Getenv("VERCEL_URL"))
+	resp, err := http.Get(fetchURL)
 	if err != nil {
 		log.Fatalf("Fetch good first issues: %s", err)
 	}
 
 	log.Printf("X-Vercel-Cache: %s", resp.Header.Get("X-Vercel-Cache"))
+
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Fetch good first issues from %s: %s", fetchURL, resp.Status)
+	}
 
 	content, err := io.ReadAll(resp.Body)
 	if err != nil {
