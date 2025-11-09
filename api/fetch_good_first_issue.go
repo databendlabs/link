@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -10,19 +9,13 @@ import (
 	"sync"
 
 	"github.com/google/go-github/v78/github"
-	"golang.org/x/oauth2"
 )
 
 func FetchGoodFirstIssue(w http.ResponseWriter, r *http.Request) {
 	log.Printf("start FetchGoodFirstIssue")
 
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-
-	client := github.NewClient(tc)
+	ctx := r.Context()
+	client := github.NewClient(nil).WithAuthToken(os.Getenv("GITHUB_TOKEN"))
 
 	repos := strings.Split(os.Getenv("GITHUB_REPOS"), ",")
 
